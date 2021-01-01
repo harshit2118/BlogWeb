@@ -1,0 +1,20 @@
+<%- include('partials/header'); -%>
+<div class="home_container">
+    <div class="heading">
+        <h1>Home Page</h1><br>
+    </div>
+    <%if(my_posts.length===0){%>
+    <p class="home_text"><%=homeText%></p><br><br> 
+    <%}%>
+    <div class="add_blog">
+        <%my_posts.slice().reverse().forEach((x)=>{%>
+            <a class="cards" href="/post/<%=x.title%>">
+                <div class="cards_content">
+                    <h1 class="card_title"><%=x.title%></h1>
+                    <p class="card_body"><%=x.body.substring(0,150)+" ..."%></p>
+                </div>   
+            </a>     
+        <%});%>
+    </div>
+</div>
+<%- include('partials/footer'); -%>
