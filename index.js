@@ -1,3 +1,4 @@
+//jshint esversion:6
 const express    = require("express");
 const ejs        = require("ejs");
 const bodyParser = require("body-parser");
@@ -64,6 +65,6 @@ app.post("/compose",(req,res)=>{
 
 
 //Establishing server at port 3000
-app.listen("3000",()=>{
-    console.log("server is running in port 3000");
-});
+app.listen("3000",() => {
+        console.log("server is running in port 3000");
+    });
