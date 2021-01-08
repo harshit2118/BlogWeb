@@ -3,15 +3,20 @@
     <div class="heading">
         <h1>Home Page</h1><br>
     </div>
-    <%if(my_posts.length===0){%>
+    <%if(posts.length===0){%>
     <p class="home_text"><%=homeText%></p><br><br> 
     <%}%>
     <div class="add_blog">
-        <%my_posts.slice().reverse().forEach((x)=>{%>
-            <a class="cards" href="/post/<%=x.title%>">
+        <a class="compose_card" href="/compose">
+            <div class="compose_card_content">
+                <p>+</p>
+            </div>
+        </a>
+        <% posts.slice().reverse().forEach((x)=>{%>
+            <a class="cards" href="/post/<%=x._id%>">
                 <div class="cards_content">
-                    <h1 class="card_title"><%=x.title%></h1>
-                    <p class="card_body"><%=x.body.substring(0,150)+" ..."%></p>
+                    <h1 class="card_title"><%=x.Title%></h1>
+                    <p class="card_body"><%=x.blogPost.substring(0,150)+" ..."%></p>
                 </div>   
             </a>     
         <%});%>

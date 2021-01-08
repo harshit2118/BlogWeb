@@ -3,8 +3,12 @@ const express    = require("express");
 const ejs        = require("ejs");
 const bodyParser = require("body-parser");
 const m_string   = require("lodash");
+const mongoose   = require("mongoose");  
+const url        = "mongodb://localhost:27017/MyBlogDB";
+
 const app        = express();
 
+mongoose.connect(url,{ useNewUrlParser:true,useUnifiedTopology:true });
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("local"));
 
@@ -15,12 +19,34 @@ const about_text   =  "DD is your personal online diary or blog where you can wr
 const contact_text_emial = "hrshtjoshi238@gmail.com";
 const contact_text_linkedin = "https://linkedin.com/in/harshit-joshi-5a5782149";
 const contact_text_github = "https://github.com/harshit2118";
-const my_posts     = [];
+
+//Creating Schema for our blogDB
+blogSchema = new mongoose.Schema({
+    Title : {
+        type : String,
+        required : [true,"Title is not inserted"]
+    },
+    blogPost : {
+        type : String,
+        required : [true,"Blog is not inserted"]
+    }
+});
+
+//Creating model for our Schema
+const Blog = new mongoose.model("Blog",blogSchema);
 
 app.get("/",(req,res)=>{
-    res.render("home",{
-        homeText : home_text,
-        my_posts  :my_posts
+
+    Blog.find({},(err,posts)=>{
+        if(err){
+            console.log("Blog not found!!!");
+        }
+        else{
+            res.render("home",{
+                homeText : home_text,
+                posts  :posts
+            });
+        }
     });
 });
 
@@ -37,27 +63,34 @@ app.get("/about",(req,res)=>{
     });
 });
 app.get("/compose",(req,res)=>{
-    res.render("compose",{
-        
-    });
+    res.render("compose");
 });
 app.get("/post/:t1",(req,res)=>{
-    my_posts.forEach(x=>{
-        if(m_string.lowerCase(x.title)===m_string.lowerCase(req.params.t1)){
-            res.render("post",{
-                title : x.title,
-                post : x.body
-            });
+    const postID = req.params.t1; 
+    Blog.findOne({_id:postID},(err,posts)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+                res.render("post",{
+                    Title : posts.Title,
+                    blogPost : posts.blogPost
+                });
         }
     });
 });
+
 //Post Requests
 app.post("/compose",(req,res)=>{
-    const post_blog_text = {
-        title : req.body.blog_title,
-        body  : req.body.blog_post
-    };
-    my_posts.push(post_blog_text);
+    const post_blog_text = Blog({
+        Title : req.body.blog_title,
+        blogPost  : req.body.blog_post
+    });
+    post_blog_text.save((err)=>{
+        if(err){
+            console.log(err);
+        }
+    });
     res.redirect("/");
 });
 
