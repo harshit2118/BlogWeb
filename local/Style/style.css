@@ -58,15 +58,18 @@ body{
     margin-left: 40px;
     /*margin: 0 auto 0 auto;*/
 }
-.home_text,.about_text,.contact_text{
-    width: auto;
-    margin: 0 auto 0 auto;
+.home_text,.about_text,.contact_text,.post_text{
+    width: 50%;
+    text-align: left;
+    /*margin: 0 auto 0 auto;*/
     margin-top: 2px;
+    margin-left: 40px ;
     height: auto;
     padding: 30px;
-    background-color: rgba(194, 194, 194, 0.561);
+    /*background-color: rgba(194, 194, 194, 0.561);*/
     border-radius: 30px;
-    font-family: Showcard Gothic, fantasy;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: large;
 }
 .add_blog{
     display: flex;
@@ -161,6 +164,12 @@ input[type="text"].form_input{
 }
 .btn{
     border-radius: 30px;
+}
+.btn:focus{
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    transform: translateX(10px);
 }
 textarea.form_input{
     border-radius: 30px;
