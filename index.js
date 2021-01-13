@@ -5,7 +5,9 @@ const bodyParser = require("body-parser");
 const m_string   = require("lodash");
 const mongoose   = require("mongoose");  
 const url        = "mongodb://localhost:27017/MyBlogDB";
-
+const path       = require("path");
+const fs         = require("fs");
+const multer     = require("multer");
 const app        = express();
 
 mongoose.connect(url,{ useNewUrlParser:true,useUnifiedTopology:true });
@@ -19,6 +21,18 @@ const contact_text_emial = "hrshtjoshi238@gmail.com";
 const contact_text_linkedin = "https://linkedin.com/in/harshit-joshi-5a5782149";
 const contact_text_github = "https://github.com/harshit2118";
 
+//Set Storage engine
+const storage = multer.diskStorage({
+    destination: "local/uploads",
+    filename : (req,file,cb)=>{
+        cb(null,file.fieldname +"-"+Date.now()+"-"+path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage
+}).single("hello");
+
 //Creating Schema for our blogDB
 blogSchema = new mongoose.Schema({
     Title : {
@@ -29,6 +43,10 @@ blogSchema = new mongoose.Schema({
         type : String,
         required : [true,"Blog is not inserted"]
     }
+    /*img :{
+        data: Buffer,
+        contentType: String
+    }*/
 });
 
 //Creating model for our Schema
@@ -81,6 +99,11 @@ app.get("/post/:t1",(req,res)=>{
 
 //Post Requests
 app.post("/compose",(req,res)=>{
+    upload(req,res,(err)=>{
+        if(!err){
+            console.log(req.file);
+        }
+    });
     const post_blog_text = Blog({
         Title : req.body.blog_title,
         blogPost  : req.body.blog_post

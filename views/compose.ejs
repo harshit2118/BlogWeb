@@ -4,7 +4,7 @@
 </div>
 
 <div class="form_container">
-    <form id="form1" action="/compose" method="post">
+    <form id="form1" action="/compose" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label for="usr">Title:</label>
           <input type="text" class="form-control form_input" id="usr" name="blog_title" autocomplete="none">
@@ -12,6 +12,11 @@
         <div class="form-group">
           <label for="frm">Post:</label>
           <textarea name="blog_post" class="form-control form_input" id="frm" form="form1" rows="15" autocomplete="none"></textarea>
+        </div>
+        <div class="form-group">
+          <%= typeof msg !="undefined" ? msg : "" ; %>
+          <label for="image">Upload Image</label>
+          <input type="file" name="image" id="image">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

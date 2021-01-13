@@ -179,6 +179,15 @@ textarea.form_input{
 textarea:focus{
     outline: none;
 }
-.nav_link{
+.my_portfolio{
+    color:blue
+}
+.my_portfolio:hover{
+    text-decoration: none;
+}
+.nav_link,.nav_link_brand{
+    color: white;
+}
+.nav_link_brand:hover{
     color: white;
 }
